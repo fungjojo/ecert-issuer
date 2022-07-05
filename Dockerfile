@@ -4,7 +4,7 @@ MAINTAINER Kim Duffy "kimhd@mit.edu"
 USER root
 
 COPY . /cert-issuer
-COPY conf_regtest.ini /etc/cert-issuer/conf.ini
+COPY conf.ini /etc/cert-issuer/conf.ini
 
 RUN apk add --update \
     bash \
@@ -29,7 +29,6 @@ RUN apk add --update \
     && pip3 install wheel \
     && mkdir -p /etc/cert-issuer/data/unsigned_certificates \
     && mkdir /etc/cert-issuer/data/blockchain_certificates \
-    && mkdir ~/.bitcoin \
     && pip3 install /cert-issuer/. \
     && pip3 install -r /cert-issuer/ethereum_requirements.txt \
     && rm -r /usr/lib/python*/ensurepip \
