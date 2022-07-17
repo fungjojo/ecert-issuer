@@ -35,7 +35,6 @@ RUN apk add --update \
     && rm -rf /var/cache/apk/* \
     && rm -rf /root/.cache
 
-
-ENTRYPOINT bitcoind -daemon && bash
-
-
+COPY ./issue-cert.sh /
+RUN chmod +x /issue-cert.sh
+ENTRYPOINT bitcoind -daemon && bash && sh /issue-cert.sh
