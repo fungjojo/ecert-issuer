@@ -221,7 +221,7 @@ class EtherscanBroadcaster(object):
             if response.json().get('message', None) == 'NOTOK':
                 raise BroadcastError(response.json().get('result', None))
             nonce = int(response.json().get('result', None), 0)
-            logging.info('Nonce check went correct: %s', response.json())
+            logging.info('??? 2. Nonce check went correct: %s', response.json())
             return nonce
         else:
             logging.info('response error checking nonce')
@@ -287,7 +287,7 @@ class MyEtherWalletBroadcaster(object):
         if int(response.status_code) == 200:
             # the int(res, 0) transforms the hex nonce to int
             nonce = int(response.json().get('result', None), 0)
-            logging.info('Nonce check went correct: %s', response.json())
+            logging.info('??? 1. Nonce check went correct: %s', response.json())
             return nonce
         else:
             logging.info('response error checking nonce')
