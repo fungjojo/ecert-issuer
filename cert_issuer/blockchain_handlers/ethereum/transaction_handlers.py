@@ -67,6 +67,7 @@ class EthereumTransactionHandler(TransactionHandler):
         if self.balance:
             # it is assumed here that the address has sufficient funds, as the ensure_balance has just been checked
             nonce = self.connector.get_address_nonce(self.issuing_address)
+            logging.info('???? ETH nonce=%s', nonce)
             # Transactions in the first iteration will be send to burn address
             toaddress = '0xdeaddeaddeaddeaddeaddeaddeaddeaddeaddead'
             tx = self.transaction_creator.create_transaction(self.tx_cost_constants, self.issuing_address, nonce,

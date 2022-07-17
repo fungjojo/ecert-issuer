@@ -148,8 +148,9 @@ class EthereumRPCProvider(object):
         Looks up the address nonce of this address.
         Necessary for the transaction creation.
         """
-        logging.info('Fetching nonce with EthereumRPCProvider')
+        logging.info('??? Fetching nonce with EthereumRPCProvider')
         response = self.w3.eth.getTransactionCount(address, "pending")
+        logging.info('??? response=%s', response)
         return response
 
 
