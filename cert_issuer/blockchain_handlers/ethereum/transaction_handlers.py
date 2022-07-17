@@ -1,4 +1,5 @@
 import logging
+import os 
 
 from pycoin.serialize import b2h
 
@@ -66,7 +67,9 @@ class EthereumTransactionHandler(TransactionHandler):
     def create_transaction(self, blockchain_bytes):
         if self.balance:
             # it is assumed here that the address has sufficient funds, as the ensure_balance has just been checked
-            nonce = 11
+            env_nonce = os.environ.get('ENV_NONCE')
+            logging.info('???? ETH env_nonce=%s', env_nonce)
+            nonce = env_nonce
             # nonce = self.connector.get_address_nonce(self.issuing_address)
             logging.info('???? ETH nonce=%s', nonce)
             # Transactions in the first iteration will be send to burn address
