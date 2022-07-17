@@ -105,5 +105,6 @@ class BitcoinTransactionHandler(TransactionHandler):
         tx_utils.verify_transaction(signed_hextx, op_return_value)
 
     def broadcast_transaction(self, signed_tx):
+        logging.info('???? bitcoin broadcast_transaction=%s', signed_tx.as_hex())
         tx_id = self.connector.broadcast_tx(signed_tx)
         return tx_id

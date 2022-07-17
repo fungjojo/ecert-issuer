@@ -105,7 +105,7 @@ class EthereumServiceProviderConnector(ServiceProviderConnector):
                         final_tx_id = txid
                     return txid
                 except Exception as e:
-                    logging.warning('Caught exception trying provider %s. Trying another. Exception=%s',
+                    logging.warning('2. Caught exception trying provider %s. Trying another. Exception=%s',
                                     str(m), e)
                     last_exception = e
 
@@ -113,12 +113,12 @@ class EthereumServiceProviderConnector(ServiceProviderConnector):
             if final_tx_id:
                 return final_tx_id
             else:
-                logging.warning('Broadcasting failed. Waiting before retrying. This is attempt number %d',
+                logging.warning('??? Broadcasting failed. Waiting before retrying. This is attempt number %d',
                                 attempt_number)
                 time.sleep(BROADCAST_RETRY_INTERVAL)
 
         ##in case of failure:
-        logging.error('Failed broadcasting through all providers')
+        logging.error('???? Failed broadcasting through all providers')
         logging.error(last_exception, exc_info=True)
         raise BroadcastError(last_exception)
 
@@ -171,7 +171,9 @@ class EtherscanBroadcaster(object):
             broadcast_url += '&apikey=%s' % self.api_token
         response = self.send_request('POST', broadcast_url, {'hex': tx_hex})
         if 'error' in response.json():
-            logging.error("Etherscan returned an error: %s", response.json()['error'])
+            logging.error("???? broadcast_url: %s", broadcast_url)
+            logging.error("???? tx_hex: %s", tx_hex)
+            logging.error("1. ??? Etherscan returned an error: %s", response.json()['error'])
             raise BroadcastError(response.json()['error'])
         if int(response.status_code) == 200:
             if response.json().get('message', None) == 'NOTOK':

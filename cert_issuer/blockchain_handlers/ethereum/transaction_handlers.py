@@ -59,6 +59,7 @@ class EthereumTransactionHandler(TransactionHandler):
         prepared_tx = self.create_transaction(blockchain_bytes)
         signed_tx = self.sign_transaction(prepared_tx)
         self.verify_transaction(signed_tx, eth_data_field)
+        logging.info('???? ETH broadcast_transaction=%s', signed_tx.as_hex())
         txid = self.broadcast_transaction(signed_tx)
         return txid
 

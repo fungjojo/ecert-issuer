@@ -223,7 +223,7 @@ class BitcoinServiceProviderConnector(ServiceProviderConnector):
                             raise Exception('Got conflicting tx_ids.')
                         final_tx_id = tx_id
                 except Exception as e:
-                    logging.warning('Caught exception trying provider %s. Trying another. Exception=%s',
+                    logging.warning('1. Caught exception trying provider %s. Trying another. Exception=%s',
                                     str(method_provider), e)
                     last_exception = e
             # At least 1 provider succeeded, so return
