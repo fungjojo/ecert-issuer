@@ -60,7 +60,8 @@ class EthereumTransactionHandler(TransactionHandler):
         prepared_tx = self.create_transaction(blockchain_bytes)
         signed_tx = self.sign_transaction(prepared_tx)
         self.verify_transaction(signed_tx, eth_data_field)
-        logging.info('???? ETH broadcast_transaction=%s', signed_tx)
+        logging.info('ETH broadcast_transaction=%s', signed_tx)
+        print('[issue-cert] Docker - ETH broadcast_transaction', signed_tx)
         txid = self.broadcast_transaction(signed_tx)
         return txid
 
@@ -68,10 +69,10 @@ class EthereumTransactionHandler(TransactionHandler):
         if self.balance:
             # it is assumed here that the address has sufficient funds, as the ensure_balance has just been checked
             env_nonce = os.environ.get('ENV_NONCE')
-            logging.info('???? ETH env_nonce=%s', env_nonce)
+            logging.info('ETH env_nonce=%s', env_nonce)
+            print('[issue-cert] Docker - ETH env_nonce', env_nonce)
             nonce = int(env_nonce)
             # nonce = self.connector.get_address_nonce(self.issuing_address)
-            logging.info('???? ETH nonce=%s', nonce)
             # Transactions in the first iteration will be send to burn address
             toaddress = '0xdeaddeaddeaddeaddeaddeaddeaddeaddeaddead'
             tx = self.transaction_creator.create_transaction(self.tx_cost_constants, self.issuing_address, nonce,

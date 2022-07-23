@@ -74,12 +74,12 @@ class EthereumServiceProviderConnector(ServiceProviderConnector):
         return 0
 
     def get_address_nonce(self, address):
-        logging.debug("??? get_address_nonce")
+        logging.debug("get_address_nonce")
         for m in self.get_providers_for_chain(self.ethereum_chain, self.local_node):
             try:
                 logging.debug('m=%s', m)
                 nonce = m.get_address_nonce(address)
-                logging.debug("??? get_address_nonce, nonce=%s", nonce)
+                logging.debug("get_address_nonce, nonce=%s", nonce)
                 return nonce
             except Exception as e:
                 logging.warning(e)
@@ -115,12 +115,13 @@ class EthereumServiceProviderConnector(ServiceProviderConnector):
             if final_tx_id:
                 return final_tx_id
             else:
-                logging.warning('??? Broadcasting failed. Waiting before retrying. This is attempt number %d',
+                logging.warning('Broadcasting failed. Waiting before retrying. This is attempt number %d',
                                 attempt_number)
+                print('[issue-cert] Docker - Broadcasting failed. Waiting before retrying. This is attempt number', attempt_number)
                 time.sleep(BROADCAST_RETRY_INTERVAL)
 
         ##in case of failure:
-        logging.error('???? Failed broadcasting through all providers')
+        logging.error('Failed broadcasting through all providers')
         logging.error(last_exception, exc_info=True)
         raise BroadcastError(last_exception)
 
@@ -148,9 +149,9 @@ class EthereumRPCProvider(object):
         Looks up the address nonce of this address.
         Necessary for the transaction creation.
         """
-        logging.info('??? Fetching nonce with EthereumRPCProvider')
+        logging.info('Fetching nonce with EthereumRPCProvider')
         response = self.w3.eth.getTransactionCount(address, "pending")
-        logging.info('??? response=%s', response)
+        logging.debug('response=%s', response)
         return response
 
 
@@ -174,9 +175,7 @@ class EtherscanBroadcaster(object):
             broadcast_url += '&apikey=%s' % self.api_token
         response = self.send_request('POST', broadcast_url, {'hex': tx_hex})
         if 'error' in response.json():
-            logging.error("???? broadcast_url: %s", broadcast_url)
-            logging.error("???? tx_hex: %s", tx_hex)
-            logging.error("1. ??? Etherscan returned an error: %s", response.json()['error'])
+            logging.error("1. Etherscan returned an error: %s", response.json()['error'])
             raise BroadcastError(response.json()['error'])
         if int(response.status_code) == 200:
             if response.json().get('message', None) == 'NOTOK':
@@ -221,7 +220,7 @@ class EtherscanBroadcaster(object):
             if response.json().get('message', None) == 'NOTOK':
                 raise BroadcastError(response.json().get('result', None))
             nonce = int(response.json().get('result', None), 0)
-            logging.info('??? 2. Nonce check went correct: %s', response.json())
+            logging.info('2. Nonce check went correct: %s', response.json())
             return nonce
         else:
             logging.info('response error checking nonce')
@@ -287,7 +286,7 @@ class MyEtherWalletBroadcaster(object):
         if int(response.status_code) == 200:
             # the int(res, 0) transforms the hex nonce to int
             nonce = int(response.json().get('result', None), 0)
-            logging.info('??? 1. Nonce check went correct: %s', response.json())
+            logging.info('1. Nonce check went correct: %s', response.json())
             return nonce
         else:
             logging.info('response error checking nonce')

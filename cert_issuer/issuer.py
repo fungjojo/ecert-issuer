@@ -27,7 +27,7 @@ class Issuer:
                 txid = self.transaction_handler.issue_transaction(blockchain_bytes)
                 self.certificate_batch_handler.finish_batch(txid, chain)
                 logging.info('Broadcast transaction with txid %s', txid)
-                print('[Issue Cert] Broadcast transaction with txid %s', txid)
+                print('[issue-cert] Docker - Broadcast transaction with txid', txid)
                 return txid
             except BroadcastError:
                 logging.warning(

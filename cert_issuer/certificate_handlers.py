@@ -84,6 +84,7 @@ class CertificateBatchHandler(BatchHandler):
     def post_batch_actions(self, config):
         helpers.copy_output(self.certificates_to_issue)
         logging.info('Your Blockchain Certificates are in %s', config.blockchain_certificates_dir)
+        print('[issue-cert] Docker - Your Blockchain Certificates are in', config.blockchain_certificates_dir)
 
     def prepare_batch(self):
         """
