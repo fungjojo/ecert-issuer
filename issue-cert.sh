@@ -3,7 +3,7 @@
 echo "[issue-cert] start"
 
 echo "[issue-cert] copy cert to etc folder"
-cp cert-issuer/data/unsigned_certificates/test1.json etc/cert-issuer/data/unsigned_certificates/
+cp /tmp/test1.json etc/cert-issuer/data/unsigned_certificates/
 
 echo "[issue-cert] copy private key"
 cp cert-issuer/pk_issuer.txt etc/cert-issuer/
